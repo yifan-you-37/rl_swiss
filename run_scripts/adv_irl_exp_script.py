@@ -4,8 +4,10 @@ import joblib
 import numpy as np
 
 from gym.spaces import Dict
-from rlkit.envs import get_env
+import sys
+sys.path.append('/data/rl_swiss')
 
+from rlkit.envs import get_env
 import rlkit.torch.pytorch_util as ptu
 from rlkit.launchers.launcher_util import setup_logger, set_seed
 
@@ -115,6 +117,11 @@ def experiment(variant):
 
     if ptu.gpu_enabled():
         algorithm.to(ptu.device)
+        disc_model.to(ptu.device)
+        policy.to(ptu.device)
+        qf1.to(ptu.device)
+        qf2.to(ptu.device)
+        vf.to(ptu.device)
     algorithm.train()
 
     return 1
@@ -131,7 +138,7 @@ if __name__ == '__main__':
 
     if exp_specs['num_gpu_per_worker'] > 0:
         print('\n\nUSING GPU\n\n')
-        ptu.set_gpu_mode(True)
+        ptu.set_gpu_mode(True, exp_specs['gpu_id'])
     exp_id = exp_specs['exp_id']
     exp_prefix = exp_specs['exp_name']
     seed = exp_specs['seed']

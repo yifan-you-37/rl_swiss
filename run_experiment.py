@@ -35,6 +35,7 @@ if __name__ == '__main__':
     for variant in vg_fn():
         i = num_variants
         variant['exp_id'] = i
+        variant['gpu_id'] = i % variant['num_gpus']
         with open(os.path.join(variants_dir, '%d.yaml'%i), 'w') as f:
             yaml.dump(variant, f, default_flow_style=False)
             f.flush()
@@ -54,7 +55,7 @@ if __name__ == '__main__':
         command = 'srun --gres=gpu:{num_gpu_per_worker} -c {num_cpu_per_worker} --mem {mem_per_worker} {node_exclusions} -p {partitions} python {script_path} -e {specs}'
     
     command_format_dict = exp_specs['meta_data']
-
+    print('hi')
     while (args_idx < num_variants) or (len(running_processes) > 0):
         if (len(running_processes) < num_workers) and (args_idx < num_variants):
             command_format_dict['specs'] = os.path.join(variants_dir, '%i.yaml'%args_idx)

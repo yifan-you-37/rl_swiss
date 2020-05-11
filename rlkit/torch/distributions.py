@@ -18,8 +18,8 @@ class ReparamMultivariateNormalDiag():
         self.sig = torch.exp(self.log_sig_diag)
 
     def sample(self):
-        eps = torch.randn(self.mean.size(), requires_grad=False)
-        if ptu.gpu_enabled(): eps = eps.cuda()
+        eps = torch.randn(self.mean.size(), requires_grad=False, device=ptu.device)
+        # if ptu.gpu_enabled(): eps = eps.cuda()
         samples = eps*self.sig + self.mean
         return samples
 
