@@ -1,19 +1,20 @@
 meta_data:
   script_path: run_scripts/adv_irl_exp_script.py
-  exp_name: fairl_ant_hype_search
+  exp_name: airl_ant_hype_search
   description: Train an adversarial IRL model
-  num_workers: 64
-  num_gpu_per_worker: 0
+  num_workers: 8
+  num_gpu_per_worker: 1
   num_cpu_per_worker: 2
+  num_gpus: 2
   mem_per_worker: 4gb
   partitions: cpu
   node_exclusions: gpu048,gpu024,gpu025,gpu012,gpu027
 # -----------------------------------------------------------------------------
 variables:
   adv_irl_params:
-    grad_pen_weight: [0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0]
+    grad_pen_weight: [2.0, 4.0, 8.0, 16.0]
   sac_params:
-    reward_scale: [0.5, 1.0, 2.0, 4.0, 8.0, 16.0, 32.0, 64.0]
+    reward_scale: [2.0, 4.0, 8.0, 16.0]
   # seed: [723894, 23789]
   seed: [723894]
 
@@ -33,7 +34,7 @@ constants:
   policy_num_hidden_layers: 2
 
   adv_irl_params:
-    mode: 'fairl'
+    mode: 'airl'
     state_only: false
 
     num_epochs: 162
@@ -65,7 +66,7 @@ constants:
     freq_saving: 20
     save_replay_buffer: false
     save_environment: false
-    save_algorithm: false
+    save_algorithm: true
 
   sac_params:
     # reward_scale: 8.0
