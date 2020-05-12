@@ -1,6 +1,6 @@
 meta_data:
   script_path: run_scripts/adv_irl_exp_script.py
-  exp_name: gail_ant_hype_search_32
+  exp_name: fairl_ant_hype_search_32
   description: Train an adversarial IRL model
   num_workers: 6
   num_gpu_per_worker: 1
@@ -12,9 +12,9 @@ meta_data:
 # -----------------------------------------------------------------------------
 variables:
   adv_irl_params:
-    grad_pen_weight: [2.0, 4.0, 8.0, 16.0]
+    grad_pen_weight:  [0.01, 0.05, 0.1, 0.5]
   sac_params:
-    reward_scale: [2.0, 4.0, 8.0, 16.0]
+    reward_scale: [64.0, 128.0, 196.0, 256.0]
   # seed: [723894, 23789]
   seed: [723894]
 
@@ -34,7 +34,7 @@ constants:
   policy_num_hidden_layers: 2
 
   adv_irl_params:
-    mode: 'gail'
+    mode: 'fairl'
     state_only: false
 
     # num_epochs: 162

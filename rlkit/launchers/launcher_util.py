@@ -427,7 +427,7 @@ def add_variable_to_constant_specs(constants, flat_variables):
 
 def build_nested_variant_generator(exp_spec):
     assert check_exp_spec_format(exp_spec)
-    from rllab.misc.instrument import VariantGenerator
+    from rlkit.launchers.instrument import VariantGenerator
 
     variables = exp_spec['variables']
     constants = exp_spec['constants']

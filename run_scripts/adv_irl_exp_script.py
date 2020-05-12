@@ -2,7 +2,7 @@ import yaml
 import argparse
 import joblib
 import numpy as np
-
+import datetime
 from gym.spaces import Dict
 import sys
 sys.path.append('/data/rl_swiss')
@@ -140,7 +140,7 @@ if __name__ == '__main__':
         print('\n\nUSING GPU\n\n')
         ptu.set_gpu_mode(True, exp_specs['gpu_id'])
     exp_id = exp_specs['exp_id']
-    exp_prefix = exp_specs['exp_name']
+    exp_prefix = datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['exp_name']
     seed = exp_specs['seed']
     set_seed(seed)
     setup_logger(exp_prefix=exp_prefix, exp_id=exp_id, variant=exp_specs)

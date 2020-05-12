@@ -26,7 +26,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now(dateutil.tz.tzlocal())
     timestamp = now.strftime('%Y_%m_%d_%H_%M_%S')
     variants_dir = os.path.join(
-        config.LOCAL_LOG_DIR, 'variants-for-'+exp_specs['meta_data']['exp_name'], 'variants-'+timestamp
+        config.LOCAL_LOG_DIR, 'variants', datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['meta_data']['exp_name']
     )
     os.makedirs(variants_dir)
     with open(os.path.join(variants_dir, 'exp_spec_definition.yaml'), 'w') as f:
