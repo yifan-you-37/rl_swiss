@@ -110,7 +110,7 @@ rlkit/envs/custom_assets/*
 
 # future project ideas and other things to not track
 project_ideas
-rlkit/launchers/config.py
+# rlkit/launchers/config.py
 running.txt
 v1p0_exp_specs/*
 old_env_init.py
@@ -121,3 +121,5 @@ original_rlkit_README.md
 refactor_notes.txt
 other/*
 old_hc_rand_vel.py
+
+.vscode/
