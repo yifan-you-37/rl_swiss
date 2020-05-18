@@ -20,8 +20,16 @@ import seaborn as sns; sns.set()
 
 import json
 
-rews = [2.0]
+rews = [2.0, 4.0, 8.0, 16.0]
 gps = [2.0, 4.0, 8.0, 16.0]
+# gps =  [0.01, 0.05, 0.1, 0.5]
+# rews = [64.0, 128.0, 196.0, 256.0]
+
+LOG_DIR = '/data/rl_swiss/logs/'
+LOG_PLOTS_DIR = '/data/rl_swiss/logs_plots/'
+
+exp_name_all = ['fairl-ant-hype-search-32', 'gail-ant-hype-search-32', 'airl-ant-hype-search-32']
+
 rew_ind = {}
 for i in range(len(rews)):
     rew_ind[rews[i]] = i
@@ -35,15 +43,17 @@ def make_heatmap(grid, save_path, title):
     ax.set(xlabel='Gradient Penalty', ylabel='Reward Scale', xticklabels=gps, yticklabels=rews, title=title)
     ax.figure.savefig(save_path)
     plt.close()
+
 def make_progress_plots(arr_progress, save_folder_path, title):
     for one_exp in arr_progress:
-            y = one_exp['progress']['Test Returns Mean']
-            x = np.ones((y.size)) * 100000
+            y = one_exp['progress']['AverageReturn']
+            x = np.ones((y.size)) * int(one_exp['params']['adv_irl_params']['num_steps_per_epoch'])
             x = np.cumsum(x)
             plt.plot(x, y, label='rew_{}_gp_{}'.format(one_exp['params']['sac_params']['reward_scale'], one_exp['params']['adv_irl_params']['grad_pen_weight']))
             plt.legend()
             plt.title(title)
     plt.savefig('{}/{}.png'.format(save_folder_path, title))
+    plt.close()
             
 def extract_info_csv(csv_path):
     all_rows = []
@@ -83,13 +93,15 @@ def extract_info(exp_path):
     return grid_ret, arr_progress
 
 if __name__ == '__main__':
-    # extract the info for airl
-    exp_path = '/data/rl_swiss/logs/airl-ant-hype-search'
-    airl_grid_ret, airl_arr_progress = extract_info(exp_path)
-    # make_heatmap(airl_grid_ret, '/data/rl_swiss/logs_plots/airl_hype_grid.png', '')
-    make_progress_plots(airl_arr_progress, '/data/rl_swiss/logs_plots/', 'airl-ant-hype-search')
+
+    for exp_name in exp_name_all:
+        exp_path = LOG_DIR + exp_name
+        grid_ret, arr_progress = extract_info(exp_path)
+        if len(arr_progress) > 0:
+            make_heatmap(grid_ret, '{}/{}_hype_grid.png'.format(LOG_PLOTS_DIR, exp_name), '')
+            make_progress_plots(arr_progress, LOG_PLOTS_DIR, exp_name)
 
     # extract the info for fairl
-    # exp_path = '/data/rl_swiss/logs/airl-ant-hype-search'
+    # exp_path = '/data/rl_swiss/logs/airl-ant-hype-search-32'
     # fairl_grid = extract_info(exp_path)
     # make_heatmap(fairl_grid, 'plots/junk_vis/fairl_hype_grid.png', '')

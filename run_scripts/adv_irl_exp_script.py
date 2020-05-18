@@ -140,9 +140,10 @@ if __name__ == '__main__':
         print('\n\nUSING GPU\n\n')
         ptu.set_gpu_mode(True, exp_specs['gpu_id'])
     exp_id = exp_specs['exp_id']
-    exp_prefix = datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['exp_name']
+    # exp_prefix = datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['exp_name']
+    exp_prefix = exp_specs['exp_name']
     seed = exp_specs['seed']
     set_seed(seed)
-    setup_logger(exp_prefix=exp_prefix, exp_id=exp_id, variant=exp_specs)
+    setup_logger(exp_prefix=exp_prefix, exp_id=exp_id, variant=exp_specs, seed=exp_specs['seed'])
 
     experiment(exp_specs)

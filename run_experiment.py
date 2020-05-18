@@ -19,6 +19,9 @@ if __name__ == '__main__':
         spec_string = spec_file.read()
         exp_specs = yaml.load(spec_string)
     
+    exp_specs['meta_data']['exp_name'] = datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['meta_data']['exp_name']
+    exp_specs['env_specs']['training_env_seed'] = int(exp_specs['variables']['seed'])
+    exp_specs['env_specs']['eval_env_seed'] = int(exp_specs['variables']['seed']) + 100
     # generating the variants
     vg_fn = build_nested_variant_generator(exp_specs)
     
@@ -26,7 +29,7 @@ if __name__ == '__main__':
     now = datetime.datetime.now(dateutil.tz.tzlocal())
     timestamp = now.strftime('%Y_%m_%d_%H_%M_%S')
     variants_dir = os.path.join(
-        config.LOCAL_LOG_DIR, 'variants', datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['meta_data']['exp_name']
+        config.LOCAL_LOG_DIR, 'variants', exp_specs['meta_data']['exp_name']
     )
     os.makedirs(variants_dir)
     with open(os.path.join(variants_dir, 'exp_spec_definition.yaml'), 'w') as f:
