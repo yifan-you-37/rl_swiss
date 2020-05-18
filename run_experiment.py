@@ -6,6 +6,7 @@ from time import sleep
 from subprocess import Popen
 import datetime
 import dateutil
+
 from rlkit.launchers import config
 from rlkit.launchers.launcher_util import build_nested_variant_generator
 
@@ -20,8 +21,8 @@ if __name__ == '__main__':
         exp_specs = yaml.load(spec_string)
     
     exp_specs['meta_data']['exp_name'] = datetime.datetime.now().strftime('%b%d_%H-%M-%S_') + exp_specs['meta_data']['exp_name']
-    exp_specs['env_specs']['training_env_seed'] = int(exp_specs['variables']['seed'])
-    exp_specs['env_specs']['eval_env_seed'] = int(exp_specs['variables']['seed']) + 100
+    exp_specs['constants']['env_specs']['training_env_seed'] = [int(seed) for seed in exp_specs['variables']['seed']][0]
+    exp_specs['constants']['env_specs']['eval_env_seed'] = [int(seed) + 100 for seed in exp_specs['variables']['seed']][0]
     # generating the variants
     vg_fn = build_nested_variant_generator(exp_specs)
     

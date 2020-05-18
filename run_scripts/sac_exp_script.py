@@ -3,6 +3,8 @@ import argparse
 import numpy as np
 
 from gym.spaces import Dict
+import sys
+sys.path.append('/data/rl_swiss')
 from rlkit.envs import get_env
 
 import rlkit.torch.pytorch_util as ptu
